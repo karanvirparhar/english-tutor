@@ -40,25 +40,10 @@ cp .env_sample .env
 
 2. Open `.env` and set the variables for the provider you want to use.
 
-3. Complete the setup for your selected provider.
-
-#### Ollama
-
-Install Ollama, start the Ollama service, and download the configured model. For the default configuration:
-
-```bash
-ollama pull gemma4:31b
-```
-
-If that model is too large for your computer, choose another installed Ollama model and set its name in `OLLAMA_MODEL`.
-
-#### OpenAI
-
-Set `LLM_PROVIDER=openai` and replace the placeholder value of `OPENAI_API_KEY` in `.env` with an API key from OpenAI. The app uses the `gpt-4o-mini` model.
-
-#### Gemini
-
-Set `LLM_PROVIDER=gemini` and replace the placeholder value of `GEMINI_API_KEY` in `.env` with an API key from Google AI Studio. The app uses the `gemini-flash-latest` model.
+3. Configure one provider:
+   - **Ollama:** Install and start Ollama, then run `ollama pull gemma4:31b`. If needed, set a different model in `OLLAMA_MODEL`.
+   - **OpenAI:** Set `LLM_PROVIDER=openai` and add your `OPENAI_API_KEY`.
+   - **Gemini:** Set `LLM_PROVIDER=gemini` and add your `GEMINI_API_KEY`.
 
 ## Run the app
 
@@ -68,51 +53,16 @@ streamlit run st_english_tutor.py
 
 Streamlit will print a local URL, usually `http://localhost:8501`.
 
-## Environment variables
+## LLM configuration
 
-### `LLM_PROVIDER`
+Set these values in `.env`:
 
-Selects the language model provider. Supported values are:
+- `LLM_PROVIDER`: `ollama` (default), `openai`, or `gemini`
+- `OLLAMA_MODEL`: Ollama model name; defaults to `gemma4:31b`
+- `OPENAI_API_KEY`: Required for `openai`; the app uses `gpt-4o-mini`
+- `GEMINI_API_KEY`: Required for `gemini`; the app uses `gemini-flash-latest`
 
-- `ollama`: Uses a local Ollama server. This is the default when the variable is not set.
-- `openai`: Uses the OpenAI API and requires `OPENAI_API_KEY`.
-- `gemini`: Uses the Google Gemini API and requires `GEMINI_API_KEY`.
-
-The value loaded from `.env` is used when `LLM_PROVIDER` is not already set in the shell environment. To use Ollama, set:
-
-```dotenv
-LLM_PROVIDER=ollama
-```
-
-### `OLLAMA_MODEL`
-
-The model name sent to Ollama when `LLM_PROVIDER=ollama`. The default is:
-
-```dotenv
-OLLAMA_MODEL=gemma4:31b
-```
-
-The model must be available in Ollama. Use `ollama list` to see downloaded models.
-
-### `OPENAI_API_KEY`
-
-Your OpenAI API key. This is used only when:
-
-```dotenv
-LLM_PROVIDER=openai
-```
-
-The app currently sends requests to the `gpt-4o-mini` model.
-
-### `GEMINI_API_KEY`
-
-Your Google Gemini API key. This is used only when:
-
-```dotenv
-LLM_PROVIDER=gemini
-```
-
-The app currently sends requests to the `gemini-flash-latest` model.
+Values already set in the shell environment take precedence over `.env`.
 
 ## Project files
 
